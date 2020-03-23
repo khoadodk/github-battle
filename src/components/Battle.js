@@ -7,6 +7,8 @@ import {
   FaTimesCircle
 } from "react-icons/fa";
 
+import Results from "./Results";
+
 function Instructions() {
   return (
     <div className="instructions-container">
@@ -122,7 +124,8 @@ class Battle extends Component {
 
     this.state = {
       playerOne: null,
-      playerTwo: null
+      playerTwo: null,
+      battle: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleReset = this.handleReset.bind(this);
@@ -139,7 +142,23 @@ class Battle extends Component {
   }
 
   render() {
-    const { playerOne, playerTwo } = this.state;
+    const { playerOne, playerTwo, battle } = this.state;
+
+    if (battle === true) {
+      return (
+        <Results
+          playerOne={playerOne}
+          playerTwo={playerTwo}
+          onReset={() =>
+            this.setState({
+              playerOne: null,
+              playerTwo: null,
+              battle: false
+            })
+          }
+        />
+      );
+    }
     return (
       <>
         <Instructions />
@@ -173,6 +192,15 @@ class Battle extends Component {
               />
             )}
           </div>
+
+          {playerOne && playerTwo && (
+            <button
+              className="btn dark-btn btn-space"
+              onClick={() => this.setState({ battle: true })}
+            >
+              Battle
+            </button>
+          )}
         </div>
       </>
     );
