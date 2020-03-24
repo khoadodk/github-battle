@@ -6,10 +6,10 @@ const activeStyle = {
   color: "rgb(187, 46, 31)"
 };
 
-export default function Nav() {
+export default function Nav({ toggleTheme }) {
   return (
     <ThemeConsumer>
-      {({ theme, toggleTheme }) => (
+      {theme => (
         <nav className="row space-between">
           <ul className="row nav">
             <li>
@@ -33,7 +33,7 @@ export default function Nav() {
             </li>
           </ul>
           <button
-            style={{ fontSize: 30 }}
+            style={{ fontSize: 30, cursor: "pointer" }}
             className="btn-clear"
             onClick={toggleTheme}
           >

@@ -11,46 +11,38 @@ const Popular = React.lazy(() => import("./components/Popular"));
 const Battle = React.lazy(() => import("./components/Battle"));
 const Results = React.lazy(() => import("./components/Results"));
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      theme: "light",
-      toggleTheme: () => {
-        this.setState(({ theme }) => ({
-          theme: theme === "light" ? "dark" : "light"
-        }));
-      }
-    };
-  }
-  render() {
-    return (
-      <Router>
-        <ThemeProvider value={this.state}>
-          <div className={this.state.theme}>
-            <div className="container">
-              <Nav />
+const App = () => {
+  const initialState = { theme: "light" };
+  const [theme, setTheme] = React.useState(initialState.theme);
+  const toggleTheme = () =>
+    setTheme(theme => (theme === "light" ? "dark" : "light"));
 
-              <React.Suspense fallback={<Loading />}>
-                <Switch>
-                  <Route exact path="/" component={Popular} />
-                  <Route exact path="/battle" component={Battle} />
-                  <Route path="/battle/results" component={Results} />
-                  <Route
-                    render={() => (
-                      <h1 style={{ textAlign: "center" }}>
-                        404! Page not found.
-                      </h1>
-                    )}
-                  />
-                </Switch>
-              </React.Suspense>
-            </div>
+  return (
+    <Router>
+      <ThemeProvider value={theme}>
+        <div className={theme}>
+          <div className="container">
+            <Nav toggleTheme={toggleTheme} />
+
+            <React.Suspense fallback={<Loading />}>
+              <Switch>
+                <Route exact path="/" component={Popular} />
+                <Route exact path="/battle" component={Battle} />
+                <Route path="/battle/results" component={Results} />
+                <Route
+                  render={() => (
+                    <h1 style={{ textAlign: "center" }}>
+                      404! Page not found.
+                    </h1>
+                  )}
+                />
+              </Switch>
+            </React.Suspense>
           </div>
-        </ThemeProvider>
-      </Router>
-    );
-  }
-}
+        </div>
+      </ThemeProvider>
+    </Router>
+  );
+};
 
 ReactDOM.render(<App />, document.getElementById("app"));
