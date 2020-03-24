@@ -1,11 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import Popular from "./components/Popular";
-import Battle from "./components/Battle";
 import { ThemeProvider } from "./contexts/theme";
 import Nav from "./components/Nav";
+import Loading from "./components/Loading";
+
+const Popular = React.lazy(() => import("./components/Popular"));
+const Battle = React.lazy(() => import("./components/Battle"));
+const Results = React.lazy(() => import("./components/Results"));
 
 class App extends React.Component {
   constructor(props) {
@@ -21,14 +25,30 @@ class App extends React.Component {
   }
   render() {
     return (
-      <ThemeProvider value={this.state}>
-        <div className={this.state.theme}>
-          <div className="container">
-            <Nav />
-            <Battle />
+      <Router>
+        <ThemeProvider value={this.state}>
+          <div className={this.state.theme}>
+            <div className="container">
+              <Nav />
+
+              <React.Suspense fallback={<Loading />}>
+                <Switch>
+                  <Route exact path="/" component={Popular} />
+                  <Route exact path="/battle" component={Battle} />
+                  <Route path="/battle/results" component={Results} />
+                  <Route
+                    render={() => (
+                      <h1 style={{ textAlign: "center" }}>
+                        404! Page not found.
+                      </h1>
+                    )}
+                  />
+                </Switch>
+              </React.Suspense>
+            </div>
           </div>
-        </div>
-      </ThemeProvider>
+        </ThemeProvider>
+      </Router>
     );
   }
 }
