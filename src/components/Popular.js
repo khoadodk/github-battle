@@ -8,6 +8,7 @@ import {
 } from "react-icons/fa";
 import { fetchPopularRepos } from "../utils/api";
 import Card from "./Card";
+import Loading from "./Loading";
 
 function LanguagesNav({ selected, onUpdateLanguage }) {
   const languages = ["All", "JavaScript", "Ruby", "Java", "Css", "Python"];
@@ -138,7 +139,7 @@ class Popular extends Component {
           onUpdateLanguage={this.updateLanguage}
         />
 
-        {this.isLoading() && <p>LOADING ...</p>}
+        {this.isLoading() && <Loading text="Fetching repos" />}
 
         {error && <p className="center-text error">{error}</p>}
 
