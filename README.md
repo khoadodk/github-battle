@@ -1,6 +1,6 @@
 ### GITHUB BATTLE
 
-- This project is initally built using class components and then refactor it to React Hook API
+- This project was initally built using class components and then refactored to React Hooks.
 
 - You can find the demo of this app at:
   https://github-battle-khoado.netlify.com/
